@@ -1,12 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { themeColors, themeSizes } from './constants/theme';
+import Header from './components/Header'
+import Item from './components/Item'
+import Add from './components/Add';
 
 export default function App() {
+  const [todos, setTodos] = useState([]);
+
+  const addNewTodo = (todoText) => {
+    if (todoText==='') return;
+    setTodos([{text: todoText, key: Math.random().toString(36).substring(7)}, ...todos]);
+  }
+
+  const deleteToDo = (todoKey) => {
+    setTodos(todos.filter(todo=>todo.key!==todoKey))
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Header/>
+      <Add addNewTodo={addNewTodo} />
+      <FlatList
+        data={todos}
+        renderItem={({item}) => (
+          <Item 
+            todo={item} 
+            deleteItem={deleteToDo}
+          />
+        )}
+        keyExtractor={(item) => item.key}
+      />
     </View>
   );
 }
@@ -14,8 +38,15 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: themeColors.primary,
     alignItems: 'center',
-    justifyContent: 'center',
+    //justifyContent: 'center',
   },
+  input: {
+    backgroundColor: themeColors.secondary,
+    color: themeColors.textColor,
+    borderRadius: 10,
+    padding: 10,
+    width: themeSizes.width
+  }
 });

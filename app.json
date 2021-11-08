@@ -3,9 +3,14 @@
     "name": "AwesomeProject",
     "slug": "AwesomeProject",
     "version": "1.0.0",
+    "icon": "./assets/icon.png",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.yourcompany.yourappname",
+      "versionCode": 1
+    }
   },
   "name": "AwesomeProject"
 }
